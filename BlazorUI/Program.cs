@@ -1,6 +1,9 @@
 using BlazorUI.Data;
+using DemoLibrary.DataAccess;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace BlazorUI
 {
@@ -14,6 +17,8 @@ namespace BlazorUI
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
             builder.Services.AddSingleton<WeatherForecastService>();
+            builder.Services.AddSingleton<IDataAccess, DemoDataAccess>();
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(DemoDataAccess).Assembly));
 
             var app = builder.Build();
 

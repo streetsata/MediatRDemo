@@ -1,4 +1,7 @@
 ﻿@page "/"
+@inject MediatR.IMediator _mediator
+@using DemoLibrary.Models
+@using DemoLibrary.Queries
 
 <PageTitle>Index</PageTitle>
 
@@ -6,4 +9,19 @@
 
 Welcome to your new app.
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+<ul>
+    @foreach (var p in people)
+    {
+        <li>@p.FirstName @p.LastName</li>
+    }
+</ul>
+
+@code{
+    List<PersonModel> people;
+
+    protected override async Task OnInitializedAsync()
+    {
+        people = await _mediator.Send(new GetPersonListQuery());
+    }
+
+}
